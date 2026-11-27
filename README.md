@@ -320,3 +320,155 @@ equivalent гэж хасах шаардлагатай PIT мутант
 - [Maven verify B2](results/mvn-verify-B2.txt)
 - [JaCoCo B2 CSV](results/jacoco-B2.csv)
 
+
+## 5. Хэсэг C — Гараар мутант үүсгэх
+
+### C1. Manual mutation testing
+
+ScholarshipCalculator.java файлын 52-р мөрийн
+нөхцөлийг түр хугацаанд өөрчилж туршсан.
+
+Анхны код:
+
+```java
+if (gpa >= 3.8 && credits >= 15) return 100;
+```
+
+Мутацитай код:
+
+```java
+if (gpa > 3.8 && credits >= 15) return 100;
+```
+
+Туршилтын команд:
+
+```bash
+mvn test 2>&1 | tee results/mvn-test-manual-mutant.txt
+```
+
+### Туршилтын үр дүн
+
+| Үзүүлэлт | Үр дүн |
+|---|---|
+| Нийт тест | 14 |
+| Амжилттай тест | 13 |
+| Failures | 1 |
+| Errors | 0 |
+| Skipped | 0 |
+| Унасан тест | scholarship100_boundaryValues |
+| Тестийн мөр | 132 |
+| Expected | 100 |
+| Actual | 70 |
+| Build status | BUILD FAILURE |
+| Мутантын төлөв | KILLED |
+
+Бодит алдааны мөр:
+
+```text
+ScholarshipCalculatorTest.scholarship100_boundaryValues:132
+expected: <100> but was: <70>
+```
+
+![Manual mutation failure](evidence/failure-C.png)
+
+GPA 3.8, кредит 15 үед анхны код 100 хувийн
+тэтгэлэг олгоно. Харин >= операторыг > болгосноор
+3.8 утга эхний нөхцөлийг хангахгүй болж,
+дараагийн нөхцөлөөр 70 хувийн тэтгэлэг олгосон.
+B2 шатанд нэмсэн зааг утгын тест энэ өөрчлөлтийг
+амжилттай илрүүлсэн.
+
+### Үндсэн кодыг сэргээх
+
+```bash
+git restore src/main/
+git diff --exit-code 71d8232 -- src/main/
+```
+
+Үндсэн кодыг сэргээсний дараа Starter commit-той
+харьцуулахад ямар нэгэн ялгаа гараагүй.
+
+Дахин mvn test ажиллуулахад:
+
+| Үзүүлэлт | Үр дүн |
+|---|---:|
+| Tests run | 14 |
+| Failures | 0 |
+| Errors | 0 |
+| Skipped | 0 |
+| Build status | BUILD SUCCESS |
+
+Мутацитай үндсэн кодыг commit хийгээгүй.
+
+Нотолгоо:
+
+- [Manual mutant test](results/mvn-test-manual-mutant.txt)
+- [Restored code test](results/mvn-test-restored.txt)
+
+### C2. Equivalent mutant
+
+Анхны код:
+
+```java
+if (hasViolation) return 0;
+```
+
+Equivalent mutant-ийн жишээ:
+
+```java
+if (hasViolation == true) return 0;
+```
+
+hasViolation нь primitive boolean төрөлтэй тул
+дээрх хоёр нөхцөл true болон false утгын аль алинд
+ижил зан төлөв үзүүлнэ. Иймээс программын
+ажиглагдах үр дүн өөрчлөгдөхгүй бөгөөд ямар ч
+зан төлөвийн тест уг хоёр хувилбарыг ялгахгүй.
+
+Энэ нь онолын equivalent mutant-ийн жишээ бөгөөд
+үндсэн кодод оруулж commit хийгээгүй.
+
+## 6. Нэгдсэн үр дүн
+
+| Үзүүлэлт | Анхны хэмжилт | B1 | B2 |
+|---|---:|---:|---:|
+| JUnit tests | 6 | 6 | 14 |
+| Line Coverage | 100% | 100% | 100% |
+| Generated mutations | 63 | 63 | 63 |
+| Killed | 17 | 45 | 63 |
+| Survived | 46 | 18 | 0 |
+| Mutation Coverage | 27% | 71% | 100% |
+| Test Strength | 27% | 71% | 100% |
+
+Mutation Coverage-ийн өөрчлөлт:
+
+- Starter: 27% (17/63)
+- B1: 71% (45/63)
+- B2: 100% (63/63)
+
+## 7. Дүгнэлт
+
+Энэхүү лабораторийн ажлаар кодын хамралт болон
+тестийн чанар нь ялгаатай ойлголт болохыг туршилтаар
+баталсан.
+Анхны тестийн багц JaCoCo дээр 100 хувийн Line
+Coverage үзүүлсэн боловч PIT дээр ердөө 27 хувийн
+Mutation Coverage гарсан.
+B1 шатанд сул assertion-уудыг яг утга шалгадаг
+assertEquals болгосноор mutation coverage 71 хувьд
+хүрсэн.
+B2 шатанд зааг утга болон нөхцөлийн тестүүдийг
+нэмснээр нийт 63 мутантыг бүгдийг илрүүлж,
+100 хувийн Mutation Coverage-д хүрсэн.
+Гар мутацийн туршилтаар нөхцөлийн операторын жижиг
+өөрчлөлтийг зааг утгын тест илрүүлж байгааг баталсан.
+Equivalent mutant нь программын зан төлөвийг
+өөрчилдөггүй тул энгийн зан төлөвийн тестээр
+илрүүлэх боломжгүй.
+AI ашиглан үүсгэсэн тестүүд өндөр кодын хамралттай
+байсан ч assertion сул эсвэл зааг утга дутуу байх
+боломжтой учраас mutation testing ашиглан чанарыг
+давхар шалгах шаардлагатай.
+Гэхдээ mutation coverage 100 хувь болсон нь бүх
+боломжит алдааг илрүүлнэ гэсэн баталгаа биш бөгөөд
+тестийн чанарыг үнэлэх нэмэлт хэмжүүр юм.
