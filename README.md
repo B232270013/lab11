@@ -161,3 +161,74 @@ assertTrue өргөн ашигласнаас буруу буцаах утгуу�
 Нотолгоо:
 [Анхны дэлгэрэнгүй PIT тайлан](results/pit-report-start/mn.edu.must.sqat/ScholarshipCalculator.java.html)
 
+
+## 4. Хэсэг B — Тестүүдийг хүчтэй болгох
+
+### B1. Assertion-уудыг сайжруулах
+
+Starter тестийн багцын 13 сул assertion-ийг
+хүлээгдэж буй утгыг яг шалгадаг assertEquals
+болгон өөрчилсөн.
+
+- letterGrade(): 5 assertNotNull-ийг assertEquals болгосон.
+- gpa(): 3 муж шалгасан assertTrue-г assertEquals болгосон.
+- scholarship(): 5 муж шалгасан assertTrue-г assertEquals болгосон.
+
+Энэ шатанд шинэ тестийн оролт нэмээгүй.
+JUnit-ийн 6 тест бүгд амжилттай ажилласан.
+
+### B1-ийн хэмжилт
+
+| Үзүүлэлт | Starter | B1 |
+|---|---:|---:|
+| JUnit tests | 6 | 6 |
+| Line Coverage | 100% | 100% |
+| Generated mutations | 63 | 63 |
+| Killed | 17 | 45 |
+| Survived | 46 | 18 |
+| No Coverage | 0 | 0 |
+| Mutation Coverage | 27% | 71% |
+| Test Strength | 27% | 71% |
+
+![PIT B1 report](evidence/03-pit-B1.png)
+
+### Мутацийн төрлүүдийн харьцуулалт
+
+| Mutator | Generated | Starter Killed | B1 Killed | B1 Survived |
+|---|---:|---:|---:|---:|
+| RemoveConditional_ORDER_ELSE | 14 | 5 | 14 | 0 |
+| PrimitiveReturns | 4 | 0 | 4 | 0 |
+| ConditionalsBoundary | 14 | 1 | 1 | 13 |
+| Switch | 1 | 0 | 1 | 0 |
+| RemoveConditional_EQUAL_ELSE | 3 | 2 | 3 | 0 |
+| RemoveConditional_ORDER_IF | 14 | 4 | 9 | 5 |
+| Math | 5 | 3 | 5 | 0 |
+| EmptyObjectReturnVals | 5 | 0 | 5 | 0 |
+| RemoveConditional_EQUAL_IF | 3 | 2 | 3 | 0 |
+| Нийт | 63 | 17 | 45 | 18 |
+
+### B1-ийн ажиглалт
+
+Зөвхөн assertion-уудыг сайжруулснаар нэмэлт 28
+мутант илэрч, Mutation Coverage 27%-аас 71%
+буюу тайланд харуулсан хувиар 44 нэгж хувиар өссөн.
+Тестийн тоо болон Line Coverage өөрчлөгдөөгүй
+боловч тестийн чанар мэдэгдэхүйц сайжирсан.
+
+Үлдсэн 18 мутантын 13 нь conditional boundary,
+5 нь RemoveConditional_ORDER_IF төрлийн мутант
+байна. Эдгээрийг B2 шатанд зааг утга болон
+нөхцөлийн тестүүдээр шалгана.
+
+Хэсэг A-д урьдчилсан байдлаар ангилсан 36-р
+мөрийн Switch default мутант B1 дээр KILLED
+болсон. Иймээс уг мутант equivalent биш,
+харин assertion сул байснаас амьд үлдсэн
+гэдэг нь батлагдсан.
+
+Нотолгоо:
+
+- [JUnit B1](results/mvn-test-B1.txt)
+- [PIT B1](results/pit-B1.txt)
+- [PIT B1 HTML report](results/pit-report-B1/index.html)
+
