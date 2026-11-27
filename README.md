@@ -39,7 +39,7 @@ JaCoCo болон PIT хэрэгслийг ашиглан кодын хамра�
 | Branch Coverage | 38/41 (92.68%) |
 | Method Coverage | 4/4 (100%) |
 
-![JaCoCo starter report](evidence/01-jacoco-start.png)
+![JaCoCo starter report](evidence/jococo-start.png)
 
 Нотолгоо:
 
@@ -57,7 +57,7 @@ JaCoCo болон PIT хэрэгслийг ашиглан кодын хамра�
 | Mutation Coverage | 27% |
 | Test Strength | 27% |
 
-![PIT starter report](evidence/02-pit-start.png)
+![PIT starter report](evidence/pit-start.png)
 
 Нотолгоо:
 
@@ -190,7 +190,7 @@ JUnit-ийн 6 тест бүгд амжилттай ажилласан.
 | Mutation Coverage | 27% | 71% |
 | Test Strength | 27% | 71% |
 
-![PIT B1 report](evidence/03-pit-B1.png)
+![PIT B1 report](evidence/pit-B1.png)
 
 ### Мутацийн төрлүүдийн харьцуулалт
 
@@ -231,4 +231,92 @@ JUnit-ийн 6 тест бүгд амжилттай ажилласан.
 - [JUnit B1](results/mvn-test-B1.txt)
 - [PIT B1](results/pit-B1.txt)
 - [PIT B1 HTML report](results/pit-report-B1/index.html)
+
+
+### B2. Зааг утгын тестүүд нэмэх
+
+B1 шатны 6 тестийг хэвээр үлдээж, нэмэлт 8 тест
+метод бичсэнээр нийт 14 тесттэй болсон.
+
+| Тестийн метод | Шалгасан зүйл |
+|---|---|
+| letterGrade_boundaryValues | 0, 100 болон A, B, C, D, F үнэлгээний зааг |
+| letterGrade_outsideBoundary_throw | Онооны зөвшөөрөгдөх хязгаараас гадуурх утга |
+| gpa_allGradeValues | Бүх үнэлгээний GPA болон холимог массив |
+| scholarship100_boundaryValues | GPA 3.8, credits 15 зааг |
+| scholarship70_boundaryValues | GPA 3.4, credits 12 зааг |
+| scholarship50_boundaryValues | GPA 3.0 зааг |
+| scholarship_validInputLimits | GPA 0, 4 болон credits 0 |
+| scholarship_invalidInputLimits_throw | Хүчин төгөлдөр бус GPA, кредит |
+
+JUnit-ийн 14 тест бүгд амжилттай ажилласан.
+
+### B2-ийн PIT хэмжилт
+
+| Үзүүлэлт | Starter | B1 | B2 |
+|---|---:|---:|---:|
+| JUnit tests | 6 | 6 | 14 |
+| Line Coverage | 100% | 100% | 100% |
+| Generated mutations | 63 | 63 | 63 |
+| Killed | 17 | 45 | 63 |
+| Survived | 46 | 18 | 0 |
+| No Coverage | 0 | 0 | 0 |
+| Mutation Coverage | 27% | 71% | 100% |
+| Test Strength | 27% | 71% | 100% |
+
+![Final PIT report](evidence/pit-final.png)
+
+### Мутацийн төрлүүдийн эцсийн үр дүн
+
+| Mutator | Generated | Starter Killed | B1 Killed | B2 Killed |
+|---|---:|---:|---:|---:|
+| RemoveConditional_ORDER_ELSE | 14 | 5 | 14 | 14 |
+| PrimitiveReturns | 4 | 0 | 4 | 4 |
+| ConditionalsBoundary | 14 | 1 | 1 | 14 |
+| Switch | 1 | 0 | 1 | 1 |
+| RemoveConditional_EQUAL_ELSE | 3 | 2 | 3 | 3 |
+| RemoveConditional_ORDER_IF | 14 | 4 | 9 | 14 |
+| Math | 5 | 3 | 5 | 5 |
+| EmptyObjectReturnVals | 5 | 0 | 5 | 5 |
+| RemoveConditional_EQUAL_IF | 3 | 2 | 3 | 3 |
+| Нийт | 63 | 17 | 45 | 63 |
+
+### Эцсийн JaCoCo хэмжилт
+
+| Үзүүлэлт | Starter | B2 |
+|---|---:|---:|
+| Instruction Coverage | 152/152 (100%) | 152/152 (100%) |
+| Line Coverage | 25/25 (100%) | 25/25 (100%) |
+| Branch Coverage | 38/41 (92.68%) | 41/41 (100%) |
+| Method Coverage | 4/4 (100%) | 4/4 (100%) |
+| Complexity Coverage | 23/26 | 26/26 |
+
+![Final JaCoCo report](evidence/jococo-final.png)
+
+### B2-ийн ажиглалт
+
+Зааг утгын болон нөхцөлийн тестүүд нэмснээр B1
+шатанд амьд үлдсэн 13 conditional boundary,
+5 conditional removal мутант бүгд KILLED болсон.
+
+Mutation Coverage 71%-аас 100% болж өссөн.
+Анхны хэмжилттэй харьцуулахад нэмэлт 46 мутант
+илрүүлж, PIT тайланд харуулсан хувиар 73 нэгж
+хувийн өсөлт үзүүлсэн.
+
+Эцсийн PIT тайланд амьд мутант байхгүй тул
+equivalent гэж хасах шаардлагатай PIT мутант
+үлдээгүй. Хэсэг A-д ангилсан бүх 46 мутант
+эцсийн тестийн багцаар илэрсэн.
+
+Багшийн шаардсан Mutation Coverage >= 85%
+зорилтыг бүрэн хангасан.
+
+Нотолгоо:
+
+- [JUnit B2](results/mvn-test-B2.txt)
+- [PIT B2](results/pit-B2.txt)
+- [PIT B2 HTML](results/pit-report-B2/index.html)
+- [Maven verify B2](results/mvn-verify-B2.txt)
+- [JaCoCo B2 CSV](results/jacoco-B2.csv)
 
